@@ -38,12 +38,16 @@ class App extends Component {
   }
 
   getPotentialBuyers() {
+    axios.get('https://joes-autos.herokuapp.com/api/buyers').then(results => {
+      toast.success("Successfully got Buyers.")
+      this.setState({'buyersToDisplay': results.data})
+    }).catch(() => toast.error("Failed at getting Buyers"))
     // axios (GET)
     // setState with response -> buyersToDisplay
   }
 
   sellCar(id) {
-    axios.delete("https://joes-autos-herokuapp.com/api/vehicles/${id}").then(results => {
+    axios.delete(`https://joes-autos-herokuapp.com/api/vehicles/${id}`).then(results => {
       toast.success("Successfully sold car.")
       this.setState({'vehiclesToDisplay': results.data.vehicles})
     }).catch(() => toast.error('Failed to sell car.'))
@@ -64,7 +68,7 @@ class App extends Component {
   }
 
   updatePrice(priceChange, id) {
-    axios.put('https://joes-autos-herokuapp.com/api/vehicles/${id}/${priceChange}').then(results => {
+    axios.put(`https://joes-autos-herokuapp.com/api/vehicles/${id}/${priceChange}`).then(results => {
       toast.success("Sucessfully updated price.")
       this.setState({'vehiclesToDisplay': results.data.vehicles})
     }).catch(() => toast.error('Failed to update price.'))
@@ -94,12 +98,21 @@ class App extends Component {
       address: this.address.value
     };
 
+    axios.put('https://joes-autos-herokuapp.com/api/buyers', newBuyer).then(results =>{
+      toast.success("Buyer created.")
+      this.setState({'buyersToDisplay': results.data})
+    }).catch(() => toast.error("Failed to create buyer."))
+
     //axios (POST)
     // setState with response -> buyersToDisplay
   }
 
   deleteBuyer(id) {
     // axios (DELETE)
+    axious.delete(`https://joes-autos-herokuapp.com/api/buyers/${id}`).then(results => {
+      toast.success("Buyer deleted successfully.")
+      this.setState({'BuyersToDisplay': results.data})
+    }).catch(() => toast.error("Failed to delete buyer."))
     //setState with response -> buyersToDisplay
   }
 
